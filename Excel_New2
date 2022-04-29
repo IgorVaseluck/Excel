@@ -36,38 +36,41 @@ class ExcelParser{
                 rowi++;
                 Row row = rowIterator.next();
                 Iterator<Cell> cellIterator = row.cellIterator();
+                int result=0;
                 while (cellIterator.hasNext()) {
 
-                    int result=0;
-                    Cell cell = cellIterator.next();
 
+                    Cell cell = cellIterator.next();
+                    Cell cell2= row2.createCell(result);
                     switch (cell.getCellType()) {
                         case Cell.CELL_TYPE_NUMERIC:
                             System.out.print(cell.getNumericCellValue()+" ");
-                            cell=row2.createCell(result);
-                            cell.setCellValue(cell.getNumericCellValue());
-                            result+=result;
+                            cell2=row2.createCell(result);
+                            cell2.setCellValue(cell.getNumericCellValue());
+                            result+=1;
                             break;
                         case Cell.CELL_TYPE_STRING:
                             String s = cell.getStringCellValue();
                             if(s.equals("карниз для штор")){
                                 System.out.print(s+" ");
+                                cell2=row2.createCell(result);
+                                cell2.setCellValue(s);
                                 cellIterator.next();
                                 System.out.print("Демонтаж/Монтаж карниза для штор ");
-                                cell=row2.createCell(result);
-                                cell.setCellValue("Демонтаж/Монтаж карниза для штор");
-                                result+=result;
+                                cell2=row2.createCell(result);
+                                cell2.setCellValue("Демонтаж/Монтаж карниза для штор");
+                                result+=1;
                                 continue;
                             }
                             if(s.equals("люстра")){
                                 System.out.print(s+" ");
-                                cell=row2.createCell(result);
-                                cell.setCellValue(s);
+                                cell2=row2.createCell(result);
+                                cell2.setCellValue(s);
                                 cellIterator.next();
                                 System.out.print("Демонтаж/Монтаж люстры ");
-                                cell=row2.createCell(result);
-                                cell.setCellValue("Демонтаж/Монтаж люстры");
-                                result+=result;
+                                cell2=row2.createCell(result);
+                                cell2.setCellValue("Демонтаж/Монтаж люстры");
+                                result+=1;
                                 continue;
                             }
 
@@ -76,16 +79,16 @@ class ExcelParser{
                                     ("Монтаж кухонного гарнитура (подвесная часть), Демонтаж кухонного гарнитура (подвесная часть)", "Монтаж кухонного гарнитура, Демонтаж кухонного гарнитура").replace
                                     ("выключатель", "выключатель/розетка").replace("Монтаж выключателя, Демонтаж выключателя", "Монтаж выключателя/розетки, Демонтаж выключателя/розетки").replace
                                     ("Демонтаж выключателя, Монтаж выключателя","Монтаж выключателя/розетки, Демонтаж выключателя/розетки");
-                            cell=row2.createCell(result);
-                            cell.setCellValue(s);
+                            cell2=row2.createCell(result);
+                            cell2.setCellValue(s);
                             System.out.print(s+" ");
-                            result+=result;
+                            result+=1;
                             break;
                         case Cell.CELL_TYPE_FORMULA:
                             System.out.print(cell.getNumericCellValue()+" ");
-                            cell=row2.createCell(result);
-                            cell.setCellValue(cell.getNumericCellValue());
-                            result+=result;
+                            cell2=row2.createCell(result);
+                            cell2.setCellValue(cell.getNumericCellValue());
+                            result+=1;
                             break;
                     }
 
