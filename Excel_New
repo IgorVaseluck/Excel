@@ -1,0 +1,101 @@
+package Excel;
+import org.apache.poi.ss.format.CellFormatType;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Sheet;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Iterator;
+
+public class MainClass {
+    public static void main(String[] args) {
+        ExcelParser.parse("объемы.xlsx");
+    }
+}
+
+class ExcelParser{
+    public static void parse(String namefile) {
+        try {
+            File filenew = new File("D:/Моё развитие и дела/Программирование/Проекты/Excel/объемы.xlsx");
+            FileInputStream file = new FileInputStream(filenew);
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while (cellIterator.hasNext()) {
+
+                    int result=0;
+                    Cell cell = cellIterator.next();
+
+                    switch (cell.getCellType()) {
+                        case Cell.CELL_TYPE_NUMERIC:
+                            System.out.print(cell.getNumericCellValue()+" ");
+                            cell=row.createCell(result);
+                            cell.setCellValue(cell.getNumericCellValue());
+                            result+=result;
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            String s = cell.getStringCellValue();
+                            if(s.equals("карниз для штор")){
+                                System.out.print(s+" ");
+                                cellIterator.next();
+                                System.out.print("Демонтаж/Монтаж карниза для штор ");
+                                cell=row.createCell(result);
+                                cell.setCellValue("Демонтаж/Монтаж карниза для штор");
+                                result+=result;
+                                continue;
+                            }
+                            if(s.equals("люстра")){
+                                System.out.print(s+" ");
+                                cell=row.createCell(result);
+                                cell.setCellValue(s);
+                                cellIterator.next();
+                                System.out.print("Демонтаж/Монтаж люстры ");
+                                cell=row.createCell(result);
+                                cell.setCellValue("Демонтаж/Монтаж люстры");
+                                result+=result;
+                                continue;
+                            }
+                            cell=row.createCell(result);
+                            s=s.replace("Шпатлевка потолчка","Шпатлевка потолка").replace(", Штукатурка потолка","").replace
+                                    ("кухонный гарнитур (подвесная и напольная части)", "кухонный гарнитур").replace
+                                    ("Монтаж кухонного гарнитура (подвесная часть), Демонтаж кухонного гарнитура (подвесная часть)", "Монтаж кухонного гарнитура, Демонтаж кухонного гарнитура").replace
+                                    ("выключатель", "выключатель/розетка").replace("Монтаж выключателя, Демонтаж выключателя", "Монтаж выключателя/розетки, Демонтаж выключателя/розетки");
+
+                            cell.setCellValue(s);
+                            System.out.print(s+" ");
+                            result+=result;
+                            break;
+                        case Cell.CELL_TYPE_FORMULA:
+                            System.out.print(cell.getNumericCellValue()+" ");
+                            cell=row.createCell(result);
+                            cell.setCellValue(cell.getNumericCellValue());
+                            result+=result;
+                            break;
+                    }
+
+                }
+                System.out.println("");
+            }
+            FileOutputStream file2=new FileOutputStream(new File("D:/Моё развитие и дела/Программирование/Проекты/Excel/объемы_новые.xlsx"));
+            workbook.write(file2);
+            file2.close();
+            file.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}
