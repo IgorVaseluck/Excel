@@ -38,7 +38,9 @@ class ExcelParser{
                 rowi++;
                 Row row = rowIterator.next();
                 Iterator<Cell> cellIterator = row.cellIterator();
+
                 int result=0;
+
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
                     Cell cell2= row2.createCell(result);
@@ -143,7 +145,6 @@ class ExcelParser{
                             cell2.setCellType(Cell.CELL_TYPE_STRING);
                             cell2.setCellStyle(style);
                             cell2.setCellValue(s);
-                            System.out.print(s+" ");
                             int windth2=(int)(60*1.14388)*256;
                             sheet2.setColumnWidth(result,windth2);
                             result+=1;
